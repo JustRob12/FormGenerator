@@ -102,7 +102,7 @@ function App() {
     return Math.min(scaleX, scaleY);
   };
 
-  const tabs = ['personal', 'experience', 'education', 'skills'];
+  const tabs = ['personal', 'experience', 'education', 'skills', 'achievements'];
 
   return (
     <div className="min-h-screen bg-gray-100">

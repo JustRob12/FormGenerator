@@ -8,8 +8,15 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
     year: '',
     description: ''
   });
-  const [newAchievement, setNewAchievement] = useState('');
+  const [newAchievement, setNewAchievement] = useState({ text: '', year: '' });
   const [newHobby, setNewHobby] = useState('');
+  const [newExperience, setNewExperience] = useState({
+    company: '',
+    position: '',
+    startDate: '',
+    endDate: '',
+    description: ''
+  });
 
   const renderPersonalInfo = () => (
     <div className="space-y-6">
@@ -380,45 +387,160 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
   );
 
   const renderExperience = () => (
-    <div className="space-y-6">
-      <h2 className="text-lg font-semibold mb-4">Experience</h2>
-      <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input
-            type="text"
-            placeholder="Company"
+    <div className="space-y-4">
+      <h2 className="text-xl font-semibold text-gray-900">Experience</h2>
+      
+      {/* Add Experience */}
+      <div className="grid grid-cols-2 gap-4">
+        <input
+          type="text"
+          placeholder="Company"
+          value={newExperience.company}
+          onChange={(e) => setNewExperience({ ...newExperience, company: e.target.value })}
+          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+        />
+        <input
+          type="text"
+          placeholder="Position"
+          value={newExperience.position}
+          onChange={(e) => setNewExperience({ ...newExperience, position: e.target.value })}
+          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+        />
+        <input
+          type="text"
+          placeholder="Start Date"
+          value={newExperience.startDate}
+          onChange={(e) => setNewExperience({ ...newExperience, startDate: e.target.value })}
+          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+        />
+        <input
+          type="text"
+          placeholder="End Date"
+          value={newExperience.endDate}
+          onChange={(e) => setNewExperience({ ...newExperience, endDate: e.target.value })}
+          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+        />
+        <div className="col-span-2">
+          <textarea
+            placeholder="Description"
+            value={newExperience.description}
+            onChange={(e) => setNewExperience({ ...newExperience, description: e.target.value })}
+            rows={2}
             className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
           />
-          <input
-            type="text"
-            placeholder="Position"
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
-          />
-          <input
-            type="text"
-            placeholder="Start Date"
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
-          />
-          <input
-            type="text"
-            placeholder="End Date"
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
-          />
-          <div className="col-span-2">
-            <textarea
-              placeholder="Description"
-              rows={2}
-              className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
-            />
-          </div>
         </div>
         <button
           type="button"
-          className="w-full px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900"
+          onClick={handleExperienceAdd}
+          className="col-span-2 w-full px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900"
         >
           Add Experience
         </button>
       </div>
+
+      {/* Experience List */}
+      {resumeData.experience && resumeData.experience.length > 0 && (
+        <div className="space-y-4 mt-4">
+          {resumeData.experience.map((exp, index) => (
+            <div key={index} className="bg-gray-50 p-4 rounded-md">
+              <div className="flex justify-between items-start">
+                <div className="space-y-1">
+                  <h3 className="font-medium">{exp.company}</h3>
+                  <p className="text-sm text-gray-600">{exp.position}</p>
+                  <p className="text-sm text-gray-500">
+                    {exp.startDate} - {exp.endDate}
+                  </p>
+                  {exp.description && (
+                    <p className="text-sm text-gray-600 mt-2">{exp.description}</p>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const newExperience = [...resumeData.experience];
+                    newExperience.splice(index, 1);
+                    onUpdateResume({
+                      ...resumeData,
+                      experience: newExperience
+                    });
+                  }}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  const renderAchievements = () => (
+    <div className="space-y-4">
+      <h2 className="text-xl font-semibold text-gray-900">Achievements</h2>
+      
+      {/* Add Achievement */}
+      <div className="space-y-4">
+        <div className="flex space-x-2">
+          <input
+            type="text"
+            value={newAchievement.text}
+            onChange={(e) => setNewAchievement({ ...newAchievement, text: e.target.value })}
+            placeholder="Enter achievement"
+            className="flex-1 rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+          />
+          <input
+            type="text"
+            value={newAchievement.year}
+            onChange={(e) => setNewAchievement({ ...newAchievement, year: e.target.value })}
+            placeholder="Year"
+            className="w-24 rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+          />
+          <button
+            type="button"
+            onClick={handleAchievementAdd}
+            className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+
+      {/* Achievement List */}
+      {resumeData.personalInfo.achievements && resumeData.personalInfo.achievements.length > 0 && (
+        <div className="space-y-2">
+          {resumeData.personalInfo.achievements.map((achievement, index) => (
+            <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-md">
+              <div className="flex items-center space-x-3">
+                <span className="text-sm font-medium text-gray-500">{achievement.year}</span>
+                <span>{achievement.text}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  const newAchievements = [...resumeData.personalInfo.achievements];
+                  newAchievements.splice(index, 1);
+                  onUpdateResume({
+                    ...resumeData,
+                    personalInfo: {
+                      ...resumeData.personalInfo,
+                      achievements: newAchievements
+                    }
+                  });
+                }}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 
@@ -452,6 +574,37 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
     }
   };
 
+  const handleAchievementAdd = () => {
+    if (newAchievement.text.trim() && newAchievement.year.trim()) {
+      const updatedAchievements = [...(resumeData.personalInfo.achievements || []), newAchievement];
+      onUpdateResume({
+        ...resumeData,
+        personalInfo: {
+          ...resumeData.personalInfo,
+          achievements: updatedAchievements
+        }
+      });
+      setNewAchievement({ text: '', year: '' });
+    }
+  };
+
+  const handleExperienceAdd = () => {
+    if (newExperience.company && newExperience.position) {
+      const updatedExperience = [...(resumeData.experience || []), newExperience];
+      onUpdateResume({
+        ...resumeData,
+        experience: updatedExperience
+      });
+      setNewExperience({
+        company: '',
+        position: '',
+        startDate: '',
+        endDate: '',
+        description: ''
+      });
+    }
+  };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -469,6 +622,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
       {activeTab === 'experience' && renderExperience()}
       {activeTab === 'education' && renderEducation()}
       {activeTab === 'skills' && renderSkills()}
+      {activeTab === 'achievements' && renderAchievements()}
     </div>
   );
 };

@@ -54,9 +54,7 @@ const ResumePreview = ({ resumeData }) => {
             <h2 className="text-2xl text-gray-700 mt-1">{personalInfo.title}</h2>
           )}
           <div>
-            <div className="bg-gray-900 text-white p-2 rounded mb-2">
-              <h2 className="font-bold text-lg">Contact</h2>
-            </div>
+            <h2 className="font-bold text-gray-900 border-b-2 border-gray-900 pb-1 mb-2">Contact</h2>
             <div className="grid gap-2 px-2">
               {personalInfo.location && (
                 <div className="flex items-center gap-3">
@@ -84,19 +82,15 @@ const ResumePreview = ({ resumeData }) => {
       {/* About Me Section */}
       {personalInfo.summary && (
         <div className="mb-6">
-          <div className="bg-gray-900 text-white p-2 rounded mb-2">
-            <h2 className="font-bold">About Me</h2>
-          </div>
+          <h2 className="font-bold text-gray-900 border-b-2 border-gray-900 pb-1 mb-2">About Me</h2>
           <p className="text-sm">{personalInfo.summary}</p>
         </div>
       )}
 
       {/* Personal Information Section */}
       <div className="mb-6">
-        <div className="bg-gray-900 text-white p-2 rounded mb-4">
-          <h2 className="font-bold">Personal Information</h2>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
+        <h2 className="font-bold text-gray-900 border-b-2 border-gray-900 pb-1 mb-2">Personal Information</h2>
+        <div className="grid grid-cols-2 gap-1">
           {personalInfo.dateOfBirth && (
             <div>
               <span className="font-semibold">Date of Birth: </span>
@@ -160,29 +154,69 @@ const ResumePreview = ({ resumeData }) => {
         </div>
       </div>
 
-      {/* Skills Section */}
-      {skills.length > 0 && (
+      {/* Experience Section */}
+      {experience && experience.length > 0 && (
         <div className="mb-6">
-          <div className="bg-gray-900 text-white p-2 rounded mb-2">
-            <h2 className="font-bold">Skills</h2>
-          </div>
-          <div className="space-y-2">
-            {skills.map((skill, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <span className="text-sm font-medium">{skill.name}</span>
-                {renderSkillLevel(skill.level)}
+          <h2 className="font-bold text-gray-900 border-b-2 border-gray-900 pb-1 mb-2">Experience</h2>
+          <div className="space-y-4">
+            {experience.map((exp, index) => (
+              <div key={index} className="space-y-1">
+                <div className="flex justify-between">
+                  <h3 className="font-medium">{exp.company}</h3>
+                  <span className="text-sm text-gray-600">
+                    {exp.startDate} - {exp.endDate}
+                  </span>
+                </div>
+                <p className="text-sm font-medium text-gray-700">{exp.position}</p>
+                {exp.description && (
+                  <p className="text-sm text-gray-600">{exp.description}</p>
+                )}
               </div>
             ))}
           </div>
         </div>
       )}
 
+      {/* Skills and Achievements Section */}
+      <div className={`mb-6 ${skills.length > 0 && personalInfo.achievements && personalInfo.achievements.length > 0 ? 'grid grid-cols-2 gap-6' : ''}`}>
+        {/* Skills Column */}
+        {skills.length > 0 && (
+          <div className="mb-6 last:mb-0">
+            <h2 className="font-bold text-gray-900 border-b-2 border-gray-900 pb-1 mb-2">Skills</h2>
+            <div className="space-y-2">
+              {skills.map((skill, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <span className="text-sm font-medium">{skill.name}</span>
+                  {renderSkillLevel(skill.level)}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Achievements Column */}
+        {personalInfo.achievements && personalInfo.achievements.length > 0 && (
+          <div className="mb-6 last:mb-0">
+            <h2 className="font-bold text-gray-900 border-b-2 border-gray-900 pb-1 mb-2">Achievements</h2>
+            <div className="space-y-2">
+              {personalInfo.achievements.map((achievement, index) => (
+                <div key={index} className="flex items-start space-x-3">
+                  <span className="text-sm font-medium text-gray-700 w-16">{achievement.year}</span>
+                  <div className="flex items-start space-x-2 flex-1">
+                    <div className="w-2 h-2 mt-1.5 bg-gray-900 rounded-full"></div>
+                    <p className="text-sm">{achievement.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Education Section */}
       {education.length > 0 && (
         <div className="mb-6">
-          <div className="bg-gray-900 text-white p-2 rounded mb-2">
-            <h2 className="font-bold">Education</h2>
-          </div>
+          <h2 className="font-bold text-gray-900 border-b-2 border-gray-900 pb-1 mb-2">Education</h2>
           <div className="space-y-4">
             {education.map((edu, index) => (
               <div key={index} className="flex items-start">
@@ -198,29 +232,10 @@ const ResumePreview = ({ resumeData }) => {
         </div>
       )}
 
-      {/* Achievements Section */}
-      {personalInfo.achievements && personalInfo.achievements.length > 0 && (
-        <div className="mb-6">
-          <div className="bg-gray-900 text-white p-2 rounded mb-2">
-            <h2 className="font-bold">Achievements</h2>
-          </div>
-          <div className="space-y-2">
-            {personalInfo.achievements.map((achievement, index) => (
-              <div key={index} className="flex items-start space-x-2">
-                <div className="w-2 h-2 mt-1.5 bg-gray-900 rounded-full"></div>
-                <p className="text-sm">{achievement}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Hobbies Section */}
       {personalInfo.hobbies && personalInfo.hobbies.length > 0 && (
         <div className="mb-6">
-          <div className="bg-gray-900 text-white p-2 rounded mb-2">
-            <h2 className="font-bold">Hobbies</h2>
-          </div>
+          <h2 className="font-bold text-gray-900 border-b-2 border-gray-900 pb-1 mb-2">Hobbies</h2>
           <div className="space-y-1">
             {personalInfo.hobbies.map((hobby, index) => (
               <div key={index} className="flex items-center space-x-2">
