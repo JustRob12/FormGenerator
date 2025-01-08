@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
-  const [newSkill, setNewSkill] = useState({ name: '', level: '50' });
+  const [newSkill, setNewSkill] = useState({ name: '' });
   const [newEducation, setNewEducation] = useState({
     school: '',
     degree: '',
@@ -247,30 +247,19 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
   );
 
   const renderSkills = () => (
-    <div className="space-y-6">
-      <h2 className="text-lg font-semibold mb-4">Skills</h2>
+    <div className="space-y-4">
+      <h2 className="text-xl font-semibold text-gray-900">Skills</h2>
+      
+      {/* Add Skill */}
       <div className="space-y-4">
-        <div className="flex space-x-4">
-          <div className="flex-1">
-            <input
-              type="text"
-              value={newSkill.name}
-              onChange={(e) => setNewSkill({ ...newSkill, name: e.target.value })}
-              placeholder="Skill name"
-              className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
-            />
-          </div>
-          <div className="w-32 flex flex-col">
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={newSkill.level}
-              onChange={(e) => setNewSkill({ ...newSkill, name: newSkill.name, level: e.target.value })}
-              className="mt-2 w-full"
-            />
-            <span className="text-sm text-gray-500 text-center mt-1">{newSkill.level}%</span>
-          </div>
+        <div className="flex space-x-2">
+          <input
+            type="text"
+            value={newSkill.name}
+            onChange={(e) => setNewSkill({ name: e.target.value })}
+            placeholder="Enter skill"
+            className="flex-1 rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+          />
           <button
             type="button"
             onClick={handleSkillAdd}
@@ -279,36 +268,34 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             Add
           </button>
         </div>
-        <div className="space-y-2">
+      </div>
+
+      {/* Skills List */}
+      {resumeData.skills && resumeData.skills.length > 0 && (
+        <div className="grid grid-cols-2 gap-2">
           {resumeData.skills.map((skill, index) => (
-            <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
-              <span>{skill.name}</span>
-              <div className="flex items-center space-x-4">
-                <div className="w-24 bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-gray-800 rounded-full h-2"
-                    style={{ width: `${skill.level}%` }}
-                  />
-                </div>
-                <span className="text-sm text-gray-500 min-w-[40px]">{skill.level}%</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const newSkills = [...resumeData.skills];
-                    newSkills.splice(index, 1);
-                    onUpdateResume({ ...resumeData, skills: newSkills });
-                  }}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
+            <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-md">
+              <span className="truncate">{skill.name}</span>
+              <button
+                type="button"
+                onClick={() => {
+                  const newSkills = [...resumeData.skills];
+                  newSkills.splice(index, 1);
+                  onUpdateResume({
+                    ...resumeData,
+                    skills: newSkills
+                  });
+                }}
+                className="text-gray-500 hover:text-gray-700 flex-shrink-0 ml-2"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
           ))}
         </div>
-      </div>
+      )}
     </div>
   );
 
@@ -556,11 +543,12 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
 
   const handleSkillAdd = () => {
     if (newSkill.name.trim()) {
+      const updatedSkills = [...(resumeData.skills || []), newSkill];
       onUpdateResume({
         ...resumeData,
-        skills: [...resumeData.skills, { ...newSkill }]
+        skills: updatedSkills
       });
-      setNewSkill({ name: '', level: '50' });
+      setNewSkill({ name: '' });
     }
   };
 

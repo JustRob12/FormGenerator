@@ -183,11 +183,10 @@ const ResumePreview = ({ resumeData }) => {
         {skills.length > 0 && (
           <div className="mb-6 last:mb-0">
             <h2 className="font-bold text-gray-900 border-b-2 border-gray-900 pb-1 mb-2">Skills</h2>
-            <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
               {skills.map((skill, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{skill.name}</span>
-                  {renderSkillLevel(skill.level)}
+                <div key={index} className="text-sm">
+                  {skill.name}
                 </div>
               ))}
             </div>
@@ -200,12 +199,9 @@ const ResumePreview = ({ resumeData }) => {
             <h2 className="font-bold text-gray-900 border-b-2 border-gray-900 pb-1 mb-2">Achievements</h2>
             <div className="space-y-2">
               {personalInfo.achievements.map((achievement, index) => (
-                <div key={index} className="flex items-start space-x-3">
-                  <span className="text-sm font-medium text-gray-700 w-16">{achievement.year}</span>
-                  <div className="flex items-start space-x-2 flex-1">
-                    <div className="w-2 h-2 mt-1.5 bg-gray-900 rounded-full"></div>
-                    <p className="text-sm">{achievement.text}</p>
-                  </div>
+                <div key={index} className="grid grid-cols-[80px_1fr] gap-2">
+                  <span className="text-sm font-medium text-gray-700">{achievement.year}</span>
+                  <span className="text-sm">{achievement.text}</span>
                 </div>
               ))}
             </div>

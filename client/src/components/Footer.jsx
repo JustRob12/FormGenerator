@@ -12,7 +12,7 @@ const Footer = () => {
           {/* Social Media Icons */}
           <div className="flex space-x-6">
             <a
-              href="https://facebook.com/your-profile"
+              href="https://www.facebook.com/roberto.prisoris"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-gray-400 transition-colors"
@@ -20,7 +20,7 @@ const Footer = () => {
               <FaFacebook className="w-6 h-6" />
             </a>
             <a
-              href="https://instagram.com/your-profile"
+              href="https://www.instagram.com/me_robbb/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-gray-400 transition-colors"

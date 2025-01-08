@@ -89,6 +89,27 @@ function App() {
     });
   };
 
+  const handleDownloadPDF = () => {
+    const element = document.getElementById('resume-preview');
+    const opt = {
+      margin: 0,
+      filename: 'my-resume.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { 
+        scale: 2,
+        useCORS: true,
+        logging: false
+      },
+      jsPDF: { 
+        unit: 'mm', 
+        format: paperSize.toUpperCase(),
+        orientation: 'portrait'
+      }
+    };
+
+    html2pdf().set(opt).from(element).save();
+  };
+
   // Calculate initial scale to fit the preview in the container
   const calculateInitialScale = () => {
     const previewContainer = document.querySelector('.preview-container');
@@ -190,22 +211,30 @@ function App() {
 
               {/* Preview Section */}
               <div className="bg-white rounded-lg shadow-sm p-6">
-                {/* Paper Size Selector */}
-                <div className="mb-4 flex items-center justify-end space-x-2">
-                  <label className="text-sm font-medium text-gray-700">
-                    Paper Size:
-                  </label>
-                  <select
-                    value={paperSize}
-                    onChange={(e) => setPaperSize(e.target.value)}
-                    className="rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 text-sm"
+                {/* Paper Size and Download Controls */}
+                <div className="mb-4 flex items-center justify-between">
+                  <button
+                    onClick={handleDownloadPDF}
+                    className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors flex items-center space-x-2"
                   >
-                    {Object.entries(paperSizes).map(([key, size]) => (
-                      <option key={key} value={key}>
-                        {size.name}
-                      </option>
-                    ))}
-                  </select>
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    <span>Download PDF</span>
+                  </button>
+                  
+                  <div className="flex items-center space-x-2">
+                    <label className="text-sm font-medium text-gray-700">Paper Size:</label>
+                    <select
+                      value={paperSize}
+                      onChange={(e) => setPaperSize(e.target.value)}
+                      className="rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 text-sm"
+                    >
+                      {Object.entries(paperSizes).map(([key, size]) => (
+                        <option key={key} value={key}>{size.name}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
                 <div
                   className="flex justify-center overflow-hidden"
