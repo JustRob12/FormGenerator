@@ -19,17 +19,17 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
   });
 
   const renderPersonalInfo = () => (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4">
       <h2 className="text-lg font-semibold mb-4">Personal Information</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="col-span-1 sm:col-span-2">
           <label className="block text-sm font-medium text-gray-700">Full Name</label>
           <input
             type="text"
             value={resumeData.personalInfo.fullName}
             onChange={(e) => handlePersonalInfoChange('fullName', e.target.value)}
             placeholder="Enter your full name"
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
 
@@ -40,13 +40,24 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             value={resumeData.personalInfo.title}
             onChange={(e) => handlePersonalInfoChange('title', e.target.value)}
             placeholder="e.g. Student"
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
 
         <div>
+          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <input
+            type="email"
+            value={resumeData.personalInfo.email}
+            placeholder="e.g. student@example.com"
+            onChange={(e) => handlePersonalInfoChange('email', e.target.value)}
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
+          />
+        </div>
+
+        <div className="col-span-1 sm:col-span-2">
           <label className="block text-sm font-medium text-gray-700">Profile Picture</label>
-          <div className="mt-1 flex items-center space-x-4">
+          <div className="mt-1 flex items-center justify-center sm:justify-start space-x-4">
             <div className="relative">
               <input
                 type="file"
@@ -89,24 +100,13 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
-          <input
-            type="email"
-            value={resumeData.personalInfo.email}
-            placeholder="e.g. student@example.com"
-            onChange={(e) => handlePersonalInfoChange('email', e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
-          />
-        </div>
-
-        <div>
           <label className="block text-sm font-medium text-gray-700">Phone</label>
           <input
             type="tel"
             value={resumeData.personalInfo.phone}
             onChange={(e) => handlePersonalInfoChange('phone', e.target.value)}
             placeholder="e.g. +1234567890"
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
 
@@ -117,7 +117,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             value={resumeData.personalInfo.location}
             placeholder="e.g. New York, USA"
             onChange={(e) => handlePersonalInfoChange('location', e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
 
@@ -127,7 +127,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             type="date"
             value={resumeData.personalInfo.dateOfBirth}
             onChange={(e) => handlePersonalInfoChange('dateOfBirth', e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
 
@@ -137,7 +137,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             type="number"
             value={resumeData.personalInfo.age}
             onChange={(e) => handlePersonalInfoChange('age', e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
 
@@ -146,12 +146,12 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
           <select
             value={resumeData.personalInfo.gender}
             onChange={(e) => handlePersonalInfoChange('gender', e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           >
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
-            <option value="Other">Other</option>
+            
           </select>
         </div>
 
@@ -160,7 +160,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
           <select
             value={resumeData.personalInfo.civilStatus}
             onChange={(e) => handlePersonalInfoChange('civilStatus', e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           >
             <option value="">Select Status</option>
             <option value="Single">Single</option>
@@ -177,7 +177,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             value={resumeData.personalInfo.religion}
             onChange={(e) => handlePersonalInfoChange('religion', e.target.value)}
             placeholder="e.g., Christianity"
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
 
@@ -187,7 +187,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             type="text"
             value={resumeData.personalInfo.citizenship}
             onChange={(e) => handlePersonalInfoChange('citizenship', e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
 
@@ -198,7 +198,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             value={resumeData.personalInfo.height}
             onChange={(e) => handlePersonalInfoChange('height', e.target.value)}
             placeholder="e.g., 5'4"
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
 
@@ -209,7 +209,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             value={resumeData.personalInfo.weight}
             onChange={(e) => handlePersonalInfoChange('weight', e.target.value)}
             placeholder="e.g., 60kg"
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
 
@@ -219,7 +219,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             type="text"
             value={resumeData.personalInfo.fatherName}
             onChange={(e) => handlePersonalInfoChange('fatherName', e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
 
@@ -229,7 +229,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             type="text"
             value={resumeData.personalInfo.motherName}
             onChange={(e) => handlePersonalInfoChange('motherName', e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
 
@@ -239,7 +239,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             value={resumeData.personalInfo.summary}
             onChange={(e) => handlePersonalInfoChange('summary', e.target.value)}
             rows={4}
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
       </div>
@@ -258,7 +258,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             value={newSkill.name}
             onChange={(e) => setNewSkill({ name: e.target.value })}
             placeholder="Enter skill"
-            className="flex-1 rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="flex-1 rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
           <button
             type="button"
@@ -309,21 +309,21 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             value={newEducation.school}
             onChange={(e) => setNewEducation({ ...newEducation, school: e.target.value })}
             placeholder="School"
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
           <input
             type="text"
             value={newEducation.degree}
             onChange={(e) => setNewEducation({ ...newEducation, degree: e.target.value })}
             placeholder="Degree"
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
           <input
             type="text"
             value={newEducation.year}
             onChange={(e) => setNewEducation({ ...newEducation, year: e.target.value })}
             placeholder="Year"
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
           <div className="col-span-2">
             <textarea
@@ -331,7 +331,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
               onChange={(e) => setNewEducation({ ...newEducation, description: e.target.value })}
               placeholder="Description"
               rows={2}
-              className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+              className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
             />
           </div>
         </div>
@@ -384,28 +384,28 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
           placeholder="Company"
           value={newExperience.company}
           onChange={(e) => setNewExperience({ ...newExperience, company: e.target.value })}
-          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
         />
         <input
           type="text"
           placeholder="Position"
           value={newExperience.position}
           onChange={(e) => setNewExperience({ ...newExperience, position: e.target.value })}
-          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
         />
         <input
           type="text"
           placeholder="Start Date"
           value={newExperience.startDate}
           onChange={(e) => setNewExperience({ ...newExperience, startDate: e.target.value })}
-          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
         />
         <input
           type="text"
           placeholder="End Date"
           value={newExperience.endDate}
           onChange={(e) => setNewExperience({ ...newExperience, endDate: e.target.value })}
-          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+          className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
         />
         <div className="col-span-2">
           <textarea
@@ -413,7 +413,7 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             value={newExperience.description}
             onChange={(e) => setNewExperience({ ...newExperience, description: e.target.value })}
             rows={2}
-            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
         </div>
         <button
@@ -477,14 +477,14 @@ const ResumeForm = ({ resumeData, onUpdateResume, activeTab }) => {
             value={newAchievement.text}
             onChange={(e) => setNewAchievement({ ...newAchievement, text: e.target.value })}
             placeholder="Enter achievement"
-            className="flex-1 rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="flex-1 rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
           <input
             type="text"
             value={newAchievement.year}
             onChange={(e) => setNewAchievement({ ...newAchievement, year: e.target.value })}
             placeholder="Year"
-            className="w-24 rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors"
+            className="w-24 rounded-md border border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 hover:border-gray-400 transition-colors p-2"
           />
           <button
             type="button"

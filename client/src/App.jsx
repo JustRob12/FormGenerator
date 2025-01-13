@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import ResumeForm from './components/ResumeForm';
 import ResumePreview from './components/ResumePreview';
+import LetterForm, { defaultLetterData } from './components/LetterForm';
+import LetterPreview from './components/LetterPreview';
 import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
 import { SiReact, SiVite, SiTailwindcss } from 'react-icons/si';
 import html2pdf from 'html2pdf.js';
@@ -43,8 +45,11 @@ function App() {
     skills: []
   });
 
+  const [letterData, setLetterData] = useState(defaultLetterData.formal);
+
   const [activeTab, setActiveTab] = useState('personal');
   const [paperSize, setPaperSize] = useState('a4');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedLetterType, setSelectedLetterType] = useState(null);
   const [generatorType, setGeneratorType] = useState('resume'); // 'resume' or 'letter'
   const [scale, setScale] = useState(1);
@@ -130,168 +135,190 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="container mx-auto py-8 px-4">
-        {/* Generator Type Selector */}
-        <div className="mb-8 flex justify-center space-x-4">
-          <button
-            onClick={() => setGeneratorType('resume')}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-              generatorType === 'resume'
-                ? 'bg-gray-900 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            Resume Generator
-          </button>
-          <button
-            onClick={() => setGeneratorType('letter')}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-              generatorType === 'letter'
-                ? 'bg-gray-900 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            Letter Generator
-          </button>
+      {/* Header */}
+      <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-900">Form Generator</h1>
+            <button
+              className="md:hidden p-2 rounded-md hover:bg-gray-100"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
         </div>
+      </header>
 
-        <div className="flex">
-          {/* Sidebar for Letter Generator */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Sidebar */}
           {generatorType === 'letter' && (
             <Sidebar
-              onSelectLetterType={setSelectedLetterType}
+              onSelectLetterType={(type) => {
+                setSelectedLetterType(type);
+                setLetterData(defaultLetterData[type]);
+              }}
               selectedType={selectedLetterType}
+              isMobileMenuOpen={isMobileMenuOpen}
             />
           )}
 
           {/* Main Content */}
-          <div className={`flex-1 ${generatorType === 'letter' ? 'ml-4' : ''}`}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Form Section */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                {generatorType === 'resume' ? (
-                  <>
-                    {/* Resume Form Navigation */}
-                    <div className="mb-6">
-                      <nav className="flex space-x-4">
-                        {tabs.map((tab) => (
-                          <button
-                            key={tab}
-                            onClick={() => setActiveTab(tab)}
-                            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                              activeTab === tab
-                                ? 'bg-gray-900 text-white'
-                                : 'text-gray-600 hover:bg-gray-100'
-                            }`}
-                          >
-                            {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                          </button>
-                        ))}
-                      </nav>
-                    </div>
-                    {/* Resume Form */}
-                    <ResumeForm
-                      activeTab={activeTab}
-                      resumeData={resumeData}
-                      onUpdateResume={setResumeData}
-                    />
-                  </>
-                ) : (
-                  <div className="text-center py-12">
-                    {selectedLetterType ? (
-                      <div>Letter form for {selectedLetterType} will go here</div>
-                    ) : (
-                      <div className="text-gray-500">
-                        Select a letter type from the sidebar to begin
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Preview Section */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                {/* Paper Size and Download Controls */}
-                <div className="mb-4 flex items-center justify-between">
-                  <button
-                    onClick={handleDownloadPDF}
-                    className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors flex items-center space-x-2"
-                  >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    <span>Download PDF</span>
-                  </button>
-                  
-                  <div className="flex items-center space-x-2">
-                    <label className="text-sm font-medium text-gray-700">Paper Size:</label>
-                    <select
-                      value={paperSize}
-                      onChange={(e) => setPaperSize(e.target.value)}
-                      className="rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 text-sm"
-                    >
-                      {Object.entries(paperSizes).map(([key, size]) => (
-                        <option key={key} value={key}>{size.name}</option>
+          <div className="flex-1 space-y-8">
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              {generatorType === 'resume' ? (
+                <>
+                  {/* Resume Form Navigation */}
+                  <div className="mb-6">
+                    <nav className="flex space-x-4">
+                      {tabs.map((tab) => (
+                        <button
+                          key={tab}
+                          onClick={() => setActiveTab(tab)}
+                          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                            activeTab === tab
+                              ? 'bg-gray-900 text-white'
+                              : 'text-gray-600 hover:bg-gray-100'
+                          }`}
+                        >
+                          {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                        </button>
                       ))}
-                    </select>
+                    </nav>
                   </div>
+                  {/* Resume Form */}
+                  <ResumeForm
+                    activeTab={activeTab}
+                    resumeData={resumeData}
+                    onUpdateResume={setResumeData}
+                  />
+                </>
+              ) : (
+                <div className="h-full">
+                  {selectedLetterType ? (
+                    <LetterForm
+                      type={selectedLetterType}
+                      letterData={letterData}
+                      onUpdateLetter={setLetterData}
+                    />
+                  ) : (
+                    <div className="h-full flex items-center justify-center text-gray-500">
+                      Select a letter type from the sidebar to begin
+                    </div>
+                  )}
                 </div>
-                <div
-                  className="flex justify-center overflow-hidden"
-                  style={{ height: '842px' }}
+              )}
+            </div>
+
+            {/* Preview Section */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              {/* Paper Size and Download Controls */}
+              <div className="mb-4 flex items-center justify-between">
+                <button
+                  onClick={handleDownloadPDF}
+                  className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors flex items-center space-x-2"
                 >
-                  <TransformWrapper
-                    initialScale={calculateInitialScale()}
-                    minScale={0.2}
-                    maxScale={2}
-                    centerOnInit={true}
-                    alignmentAnimation={{ disabled: true }}
-                    initialPositionX={0}
-                    initialPositionY={0}
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  <span>Download PDF</span>
+                </button>
+                
+                <div className="flex items-center space-x-2">
+                  <label className="text-sm font-medium text-gray-700">Paper Size:</label>
+                  <select
+                    value={paperSize}
+                    onChange={(e) => setPaperSize(e.target.value)}
+                    className="rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 text-sm"
                   >
-                    <TransformComponent
-                      wrapperStyle={{
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: '#f3f4f6',
-                      }}
-                      contentStyle={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'flex-start',
-                        paddingTop: '20px',
+                    {Object.entries(paperSizes).map(([key, size]) => (
+                      <option key={key} value={key}>{size.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div
+                className="flex justify-center overflow-hidden"
+                style={{ height: '842px' }}
+              >
+                <TransformWrapper
+                  initialScale={calculateInitialScale()}
+                  minScale={0.2}
+                  maxScale={2}
+                  centerOnInit={true}
+                  alignmentAnimation={{ disabled: true }}
+                  initialPositionX={0}
+                  initialPositionY={0}
+                >
+                  <TransformComponent
+                    wrapperStyle={{
+                      width: '100%',
+                      height: '100%',
+                      backgroundColor: '#f3f4f6',
+                    }}
+                    contentStyle={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'flex-start',
+                      paddingTop: '20px',
+                    }}
+                  >
+                    <div
+                      id="resume-preview"
+                      style={{
+                        width: paperSizes[paperSize].width,
+                        height: paperSizes[paperSize].height,
+                        backgroundColor: 'white',
+                        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
                       }}
                     >
-                      <div
-                        id="resume-preview"
-                        style={{
-                          width: paperSizes[paperSize].width,
-                          height: paperSizes[paperSize].height,
-                          backgroundColor: 'white',
-                          boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-                        }}
-                      >
-                        {generatorType === 'resume' ? (
-                          <ResumePreview resumeData={resumeData} />
-                        ) : (
-                          <div className="p-8">
-                            {selectedLetterType ? (
-                              <div>Letter preview for {selectedLetterType} will go here</div>
-                            ) : (
-                              <div className="text-gray-500 text-center">
-                                Select a letter type to see preview
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </TransformComponent>
-                  </TransformWrapper>
-                </div>
+                      {generatorType === 'resume' ? (
+                        <ResumePreview resumeData={resumeData} />
+                      ) : (
+                        selectedLetterType && (
+                          <LetterPreview
+                            type={selectedLetterType}
+                            letterData={letterData}
+                          />
+                        )
+                      )}
+                    </div>
+                  </TransformComponent>
+                </TransformWrapper>
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Generator Type Selector */}
+      <div className="mb-8 flex justify-center space-x-4">
+        <button
+          onClick={() => {
+            setGeneratorType('resume');
+            setSelectedLetterType(null);
+          }}
+          className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+            generatorType === 'resume'
+              ? 'bg-gray-900 text-white'
+              : 'bg-white text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          Resume Generator
+        </button>
+        <button
+          onClick={() => setGeneratorType('letter')}
+          className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+            generatorType === 'letter'
+              ? 'bg-gray-900 text-white'
+              : 'bg-white text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          Letter Generator
+        </button>
       </div>
 
       {/* Preview Modal */}
